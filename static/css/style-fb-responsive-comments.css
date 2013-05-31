@@ -1,0 +1,4 @@
+#fb-container .fb_iframe_widget, 
+#fb-container .fb_iframe_widget span[style], 
+#fb-container .fb_iframe_widget iframe[style] {width:100% !important; margin-bottom: 0 !important}
+  

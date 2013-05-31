@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load mezzanine_tags keyword_tags %}
+
+{% block meta_title %}{{ page.meta_title }}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title %}
+{% editable page.title %}{{ page.title }}{% endeditable %}
+{% endblock %}
+
+{% block main %}
+{% editable page.gallery.content %}
+{{ page.gallery.content|richtext_filter|safe }}
+{% endeditable %}
+
+<ul class="thumbnails gallery">
+{% with page.gallery.images.all as images %}
+{% for image in images %}
+<li>
+	<a class="thumbnail" rel="#image-{{ image.id }}" title="{{ image.description }}" href="{{ MEDIA_URL }}{{ image.file }}">
+        <img class="image-overlay-thumb" src="{{ MEDIA_URL }}{% thumbnail image.file 75 75 %}">
+    </a>
+    <div id="image-{{ image.id }}" class="image-overlay" style="display:none;">
+        <a href="#" class="image-overlay-prev">&larr;</a>
+        <a href="#" class="image-overlay-next">&rarr;</a>
+        <img class="image-overlay-full" src="{{ MEDIA_URL }}{% thumbnail image.file 0 600 %}"><br>
+        <p>{{ image.description }}<br>{{ forloop.counter }} / {{ images|length }}</p>
+    </div>
+</li>
+{% endfor %}
+{% endwith %}
+</ul>
+{% endblock %}

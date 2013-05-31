@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+<!--
+                                     _____________
+                                    /_________   /
+                                             /  /  
+                                            /  /
+                                           /  /
+                                          /  /
+                                         /  /   ______  ______  ______  ______
+                                        /  /   / __  / /_  _ / /_  _ / / __  /
+                                       /  /   / /_/ /   / /     / /   / /_/ /
+                                      /  /   /_____/   /_/     /_/   /_/ /_/
+                                     /  /_______________________________________
+                                    /__________________________________________/
+                                                              Producciones S.A.
+
+-->
+{% load pages_tags mezzanine_tags i18n future staticfiles %}
+{% load block_tags %}
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+<meta name="description" content="{% block meta_description %}{% endblock %}">
+<meta name="author" content="Robert Ortellado"> 
+<!-- robertortellado@gmail.com -->
+
+<title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+{% ifinstalled mezzanine.blog %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+<link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+{% endifinstalled %}
+
+{% compress css %}
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/mezzanine.css">
+<link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}">
+<link rel="stylesheet" href="{% static "css/style-fb-responsive-comments.css" %}">
+
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/rtl.css" %}">
+{% endif %}
+{% ifinstalled cartridge.shop %}
+<link rel="stylesheet" href="{% static "css/cartridge.css" %}">
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
+{% endif %}
+{% endifinstalled %}
+{% block extra_css %}{% endblock %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/responsiveslides.css">
+{% endcompress %}
+
+{% compress js %}
+<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/bootstrap-extras.js" %}"></script>
+<script src="{% static "js/jquery.fb-responsive-comments.js" %}"></script>
+<script src="{{ STATIC_URL }}js/responsiveslides.min.js"></script>
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#fb-container').fbresponsivecomments({
+        appId:'',
+        url: 'http://www.zottaproducciones.com' 
+        });
+        $(function() {
+            $(".rslides").responsiveSlides();
+        });
+    });
+</script>
+
+{% block extra_js %}{% endblock %}
+{% endcompress %}
+<!--[if lt IE 9]>
+<script src="{% static "js/html5shiv.js" %}"></script>
+<![endif]-->
+
+{% block extra_head %}{% endblock %}
+
+
+</head>
+<body id="{% block body_id %}body{% endblock %}">
+    
+<!-- top menu -->
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+    <a href="/" id="logo"><img src="/static/img/zotta_logo.png" alt="zotta logo" title="Inicio"></a>
+    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+    <!--{% if settings.SITE_TITLE %}<a class="brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
+    {% if settings.SITE_TAGLINE %}<p class="navbar-text">{{ settings.SITE_TAGLINE }}</p>{% endif %}-->
+    <div class="nav-collapse">
+        {% search_form %}
+        {% page_menu "pages/menus/dropdown.html" %}        
+    </div>
+</div>
+</div>
+</div>
+
+<div class="container">
+
+{% nevercache %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" data-alert="alert">
+    <a class="close" href="#" onclick="$(this).parent().fadeOut('fast'); return false;">×</a>{{ message }}
+</div>
+{% endfor %}
+{% endnevercache %}
+<!--h1>{% block title %}{% endblock %}</h1-->
+<header>
+ <!--a href="/"><img id="logo" src="/static/img/zotta_logo_gray.png"/></a-->
+    <ul class="rslides">
+        {% for pic in pictures %}
+        <li>
+            <img src="/static/media/uploads/slides/{{ pic }}" width="1000" height="260"/>
+        </li>
+        {% endfor %}
+    </ul>
+</header>
+
+<ul class="breadcrumb">
+{% spaceless %}
+{% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+{% endspaceless %}
+</ul>
+
+</div>
+
+<div class="container">
+<div class="row">
+<!--div class="span2 left">
+    {% block left_panel %}{% endblock %}
+</div-->
+
+<div class="span7 middle">
+    {% block main %}{% endblock %}
+</div>
+
+<div class="span3 right">
+    {% nevercache %}
+    {% include "includes/user_panel.html" %}
+    {% endnevercache %}
+
+    <div class="panel">
+        {% include "blog/includes/filter_panel.html" %}
+    </div>
+    
+    <!--div class="panel tree">{% page_menu "pages/menus/tree.html" %}</div-->
+ 
+    <iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2FZottaProduccionesSA&amp;width=292&amp;height=268&amp;show_faces=true&amp;colorscheme=light&amp;stream=false&amp;border_color&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:268px;" allowTransparency="false"></iframe>
+  
+    <div class="panel">
+        {% richflatblock "richrightblock" %}
+    </div>
+
+    <a class="twitter-timeline" href="https://twitter.com/zottaproduccion" data-widget-id="325739364892151809">
+        Tweets por @zottaproduccion
+    </a>
+   
+    <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    </script>
+    
+    <!--div class="panel"-->
+    {% block right_panel %}
+    {% ifinstalled mezzanine.twitter %}
+    {% include "twitter/tweets.html" %}
+    {% endifinstalled %}
+    {% endblock %}
+    <!--/div-->
+    
+</div>
+   
+</div>
+</div>
+
+<footer>
+<div class="container">
+{% page_menu "pages/menus/footer.html" %}
+<p>
+    
+    2013 - <a href="/">Zotta Producciones S.A.</a> Todos los derechos reservados.
+    {% ifinstalled mezzanine.mobile %}
+    <span class="separator">|</span>
+    <a href="{% url "set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
+    {% endifinstalled %}
+</p>
+</div>
+</footer>
+
+{% include "includes/footer_scripts.html" %}
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script-->
+      <script src="/static/js/jquery.fitvids.js"></script>
+      <script>
+        $(".span7").fitVids();
+      </script>
+</body>
+</html>
