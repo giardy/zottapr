@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#Este context processor sirve para que las imágenes de 'slides' puedan aparecer en el plugin de sliders
+#Context processor sirve para que las imágenes de 'slides' puedan aparecer en el plugin de sliders
 
 #def all_pages(request):
 #    from mezzanine.galleries.models import Gallery
