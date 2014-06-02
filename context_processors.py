@@ -15,11 +15,11 @@ def get_pictures(request):
     files = os.listdir(".")
     pictures = []
 
-    for file in files:
-        pieces = file.split(".")
-        ext = len(pieces) - 1
+    for f in files:
+        pieces = f.split(".")
+        ext = pieces[-1]
         if pieces[ext] in ("jpg", "jpeg", "png", "gif"):
             #print pieces[ext]
-            pictures.append(file)
+            pictures.append(f)
 
     return {'pictures': pictures}
