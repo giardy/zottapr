@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#Context processor sirve para que las imágenes de 'slides' puedan aparecer en el plugin de sliders
-
-#def all_pages(request):
-#    from mezzanine.galleries.models import Gallery
-#    galleries = Gallery.objects.all()
-#    return {'pages': galleries}
+# Context procesor usado para obtener las imágenes para el slider.
 
 def get_pictures(request):
     import os
